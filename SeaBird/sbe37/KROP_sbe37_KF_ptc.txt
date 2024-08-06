@@ -1,0 +1,17 @@
+@ 	Batch File for for SBE37 KROP data processing
+@ 	%1 = filename eg ctd001
+@ 	%2 = working directory as eg C:\DATA\ctd
+@	
+@	TO PROCESS, GO TO START --> RUN & TYPE IN:
+@	sbebatch  "directory_name"\KROP_sbe37_KF_ptc.txt  "filename"  "directory_name"
+@       e.g. sbebatch  C:\MOORINGS\sbe37\KROP_sbe37_KF_ptc.txt  KF_16_17_sbe37_1234  C:\MOORINGS\sbe37
+@
+@ 	ESDU, SAMS, Feb19
+@
+
+DatCnv		/i%2\%1.hex	/o%2	/p%2\DatCnv_sbe37_ptc_KF.psa		/c%2\%1.xmlcon  
+Asciiout 	/i%2\%1.cnv	/o%2	/p%2\ASCII_Out_sbe37_ptc.psa
+
+
+
+
