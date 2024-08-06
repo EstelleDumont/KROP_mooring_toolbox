@@ -4,6 +4,9 @@
 
 clear; close all;
 
+% Add Matlab libraries paths
+eval(['addpath ''' pwd '\seawater''']);
+
 tic
 
 disp(' ')
