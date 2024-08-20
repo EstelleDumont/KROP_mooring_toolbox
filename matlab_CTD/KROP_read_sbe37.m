@@ -51,7 +51,7 @@ if p == 1
     % Convert julian day to mtime
     % Get mtime for start of year
     year_start_mtime = datenum(start_year,1,1);
-    if regexp(moor,'RF_06_07') % Issue in those files: Jday in files seems to start at 0 that year instead of 1
+    if any([regexp(moor,'RF_06_07'),regexp(moor,'KF_03_04b')]) % Special case in those files: Jday in files seems to start at 0 that year instead of 1
         sbe37.mtime = year_start_mtime-1 + sbe37.jday +1;
     else
         sbe37.mtime = year_start_mtime-1 + sbe37.jday;
