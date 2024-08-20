@@ -6,7 +6,7 @@ function KROP_plot_mooring(info_file)
 % ESDU, SAMS, April 19
 
 % Note: the number of instruments per plot/subplot is currently limited (to
-% 6 SBE37s, and 2 for the other instruments). This could be extended in 
+% 6 SBE37s, and 2 for the other instruments). This could be extended in
 % future versions of the code (the main thing will be to specify mroe
 % colors / different sympols for extra instruments).
 
@@ -35,12 +35,14 @@ j=0; jj=0; jjj=0; jjjj=0; jjjjj=0;
 %% Timeseries plots of SBE16(s) (up to 2)
 j=0;
 no_par=1;
+no_flc=1;
 if exist('sbe16p_num','var')
     if sbe16p_num >0
         for j = 1:sbe16p_num
             eval(['DATA_IN = PRO_avg_6hr.SBE16p_' sbe16p_sn{j} ';'])
-            
+
             if isfield(DATA_IN,'flc')
+                no_flc=0;
                 if j==1
                     subplot(5,1,1)
                     plot(DATA_IN.interp_time,DATA_IN.flc,'color',rgb('Lime'))
@@ -54,8 +56,10 @@ if exist('sbe16p_num','var')
                     plot(DATA_IN.interp_time,DATA_IN.flc,'color',rgb('ForestGreen'))
                     lg_f{j} = [sbe16p_depth{j} 'm'];
                 end
+            else
+                no_flc=1;
             end
-            
+
             if isfield(DATA_IN,'par')
                 no_par = 0;
                 if j==1
@@ -74,7 +78,7 @@ if exist('sbe16p_num','var')
             else
                 no_par = 1;
             end
-            
+
             if isfield(DATA_IN,'sal')
                 if j==1
                     subplot(5,1,3)
@@ -90,7 +94,7 @@ if exist('sbe16p_num','var')
                     lg_s{j} = [sbe16p_depth{j} 'm'];
                 end
             end
-            
+
             clear DATA_IN
         end
     end
@@ -100,12 +104,14 @@ end
 %% Timeseries plots of SBE19(s) (up to 2)
 jj=0;
 no_par=1;
+no_flc=1;
 if exist('sbe19p_num','var')
     if sbe19p_num >0
         for jj = 1:sbe19p_num
             eval(['DATA_IN = PRO_avg_6hr.SBE19p_' sbe19p_sn{jj} ';'])
-            
+
             if isfield(DATA_IN,'flc')
+                no_flc=0;
                 if jj==1
                     subplot(5,1,1)
                     plot(DATA_IN.interp_time,DATA_IN.flc,'-','color',rgb('SeaGreen'))
@@ -119,8 +125,10 @@ if exist('sbe19p_num','var')
                     plot(DATA_IN.interp_time,DATA_IN.flc,'-','color',rgb('PaleGreen'))
                     lg_f{j+jj} = [sbe19p_depth{jj} 'm'];
                 end
+            else
+                no_flc=1;
             end
-            
+
             if isfield(DATA_IN,'par')
                 no_par = 0;
                 if jj==1
@@ -139,7 +147,7 @@ if exist('sbe19p_num','var')
             else
                 no_par = 1;
             end
-            
+
             if isfield(DATA_IN,'sal')
                 if jj==1
                     subplot(5,1,3)
@@ -155,7 +163,7 @@ if exist('sbe19p_num','var')
                     lg_s{j+jj} = [sbe19p_depth{jj} 'm'];
                 end
             end
-            
+
             clear DATA_IN
         end
     end
@@ -168,7 +176,7 @@ if exist('esm1_num','var')
     if esm1_num >0
         for jjj = 1:esm1_num
             eval(['DATA_IN = PRO_avg_6hr.ESM1_' esm1_sn{jjj} ';'])
-            
+
             if isfield(DATA_IN,'flc')
                 if jjj==1
                     subplot(5,1,1)
@@ -184,7 +192,7 @@ if exist('esm1_num','var')
                     lg_f{j+jj+jjj} = [esm1_depth{jjj} 'm'];
                 end
             end
-            
+
             clear DATA_IN
         end
     end
@@ -194,12 +202,14 @@ end
 %% Timeseries plots of Hydrocat
 jjjj=0;
 no_par=1;
+no_flc=1;
 if exist('hcat_num','var')
     if hcat_num>0
         for jjjj = 1:hcat_num
             eval(['DATA_IN = PRO_avg_6hr.HCAT_' hcat_sn{jjjj} ';'])
-            
+
             if isfield(DATA_IN,'flc')
+                no_flc=0;
                 if jjjj==1
                     subplot(5,1,1)
                     plot(DATA_IN.interp_time,DATA_IN.flc,'-','color',rgb('LightSeaGreen'))
@@ -213,8 +223,10 @@ if exist('hcat_num','var')
                     plot(DATA_IN.interp_time,DATA_IN.flc,'-','color',rgb('DarkOliveGreen'))
                     lg_f{j+jj+jjj+jjjj} = [hcat_depth{jjjj} 'm'];
                 end
+            else
+                no_flc=1;
             end
-            
+
             if isfield(DATA_IN,'par')
                 no_par = 0;
                 if jjjj==1
@@ -233,7 +245,7 @@ if exist('hcat_num','var')
             else
                 no_par = 1;
             end
-            
+
             if isfield(DATA_IN,'sal')
                 if jjjj==1
                     subplot(5,1,3)
@@ -242,14 +254,14 @@ if exist('hcat_num','var')
                     datetick('x',12)
                     ylabel('Salinity (psu)','fontsize',8)
                     set(gca,'fontsize',8)
-                    lg_s{j+jj+jjj+jjjj} = [hcat_depth{jjjj} 'm'];
+                    lg_s{j+jj+jjjj} = [hcat_depth{jjjj} 'm'];
                 else
                     subplot(5,1,3)
                     plot(DATA_IN.interp_time,DATA_IN.sal,'-','color',rgb('DarkSlateBlue'))
-                    lg_s{j+jj+jjj+jjjj} = [hcat_depth{jjjj} 'm'];
+                    lg_s{j+jj+jjjj} = [hcat_depth{jjjj} 'm'];
                 end
             end
-            
+
             clear DATA_IN
         end
     end
@@ -262,7 +274,7 @@ if exist('sbe37_num','var')
     if sbe37_num >0
         for jjjjj = 1:sbe37_num
             eval(['DATA_IN = PRO_avg_6hr.SBE37_' sbe37_sn{jjjjj} ';'])
-            
+
             if isfield(DATA_IN,'sal')
                 subplot(5,1,3)
                 eval(['plot(DATA_IN.interp_time,DATA_IN.sal,''color'',rgb(''' sal_col{jjjjj} '''))'])
@@ -270,7 +282,7 @@ if exist('sbe37_num','var')
                 datetick('x',12)
                 ylabel('Salinity (psu)','fontsize',8)
                 set(gca,'fontsize',8)
-                lg_s{j+jj+jjj+jjjj+jjjjj} = [sbe37_depth{jjjjj} 'm'];
+                lg_s{j+jj+jjjj+jjjjj} = [sbe37_depth{jjjjj} 'm']; % Note: remove esm1 index jjj (doesn't have salinity)
             end
         end
         clear DATA_IN
@@ -322,10 +334,16 @@ h=colorbar;
 set(h,'fontsize',8)
 set(get(h,'xlabel'),'string','Temp (^oC)','fontsize',8)
 
-if no_par == 0
-    linkaxes([s1 s2 s3 s4],'x')
-elseif no_par ==1
-    linkaxes([s1 s3 s4],'x')
+if (sbe16p_num+sbe19p_num+sbe37_num)>0 % i.e. we have more than the temperature plot)
+    if (no_par+no_flc) == 0 % par and flc there
+        linkaxes([s1 s2 s3 s4],'x')
+    elseif (no_par+no_flc) == 2 % no par or flc
+        linkaxes([s3 s4],'x')
+    elseif no_flc ==1 % only par plot, no flc plot (+ sal + temp)
+        linkaxes([s2 s3 s4],'x')
+    elseif no_par ==1 % only flc plot, no par (+ sal + temp)
+        linkaxes([s1 s3 s4],'x')
+    end
 end
 
 
@@ -370,13 +388,13 @@ clear j jj jj* lg*
 
 if exist('hcat_num','var')
     if hcat_num>0
-        
+
         fig2 = figure('units','normalized','Position',[0.01,0.05,0.98,0.87]);
-        
+
         for h = 1:hcat_num
-            
+
             eval(['DATA_IN = PRO_avg_6hr.HCAT_' hcat_sn{h} ';'])
-            
+
             if isfield(DATA_IN,'temp')
                 if h==1
                     subplot(6,1,1)
@@ -392,7 +410,7 @@ if exist('hcat_num','var')
                     lg_t{h} = [hcat_depth{h} 'm'];
                 end
             end
-            
+
             if isfield(DATA_IN,'sal')
                 if h==1
                     subplot(6,1,2)
@@ -408,7 +426,7 @@ if exist('hcat_num','var')
                     lg_s{h} = [hcat_depth{h} 'm'];
                 end
             end
-            
+
             if isfield(DATA_IN,'flc')
                 if h==1
                     subplot(6,1,3)
@@ -424,7 +442,7 @@ if exist('hcat_num','var')
                     lg_f{h} = [hcat_depth{h} 'm'];
                 end
             end
-            
+
             if isfield(DATA_IN,'oxy')
                 if h==1
                     subplot(6,1,4)
@@ -440,7 +458,7 @@ if exist('hcat_num','var')
                     lg_o{h} = [hcat_depth{h} 'm'];
                 end
             end
-            
+
             if isfield(DATA_IN,'ph')
                 if h==1
                     subplot(6,1,5)
@@ -456,7 +474,7 @@ if exist('hcat_num','var')
                     lg_p{h} = [hcat_depth{h} 'm'];
                 end
             end
-            
+
             if isfield(DATA_IN,'tur')
                 if h==1
                     subplot(6,1,6)
@@ -472,40 +490,43 @@ if exist('hcat_num','var')
                     lg_tu{h} = [hcat_depth{h} 'm'];
                 end
             end
-            
-            clear DATA_IN
-            
-        end
-    end
-    
-               if exist('lg_t')
-                subplot(6,1,1)
-                legend(lg_t,'fontsize',8,'location','eastoutside')
-            end
-            if exist('lg_s')
-                subplot(6,1,2)
-                legend(lg_s,'fontsize',8,'location','eastoutside')
-            end
-            if exist('lg_f')
-                subplot(6,1,3)
-                legend(lg_f,'fontsize',8,'location','eastoutside')
-            end
-            if exist('lg_o')
-                subplot(6,1,4)
-                legend(lg_o,'fontsize',8,'location','eastoutside')
-            end
-            if exist('lg_p')
-                subplot(6,1,5)
-                legend(lg_p,'fontsize',8,'location','eastoutside')
-            end
-            if exist('lg_tu')
-                subplot(6,1,6)
-                legend(lg_tu,'fontsize',8,'location','eastoutside')
-            end
 
-    subplot(6,1,1)
-    title ([mooring_id ' (6hr average) - Hydrocat '],'interpreter','none','fontsize',10);
-    
-    fig_nm = [d_plot_pro '\' mooring_id '_avg_6hr_hydrocat'];
-    saveas(fig2,fig_nm,'tif')
+            clear DATA_IN
+
+        end
+
+
+        if exist('lg_t')
+            subplot(6,1,1)
+            legend(lg_t,'fontsize',8,'location','eastoutside')
+        end
+        if exist('lg_s')
+            subplot(6,1,2)
+            legend(lg_s,'fontsize',8,'location','eastoutside')
+        end
+        if exist('lg_f')
+            subplot(6,1,3)
+            legend(lg_f,'fontsize',8,'location','eastoutside')
+        end
+        if exist('lg_o')
+            subplot(6,1,4)
+            legend(lg_o,'fontsize',8,'location','eastoutside')
+        end
+        if exist('lg_p')
+            subplot(6,1,5)
+            legend(lg_p,'fontsize',8,'location','eastoutside')
+        end
+        if exist('lg_tu')
+            subplot(6,1,6)
+            legend(lg_tu,'fontsize',8,'location','eastoutside')
+        end
+
+        subplot(6,1,1)
+        title ([mooring_id ' (6hr average) - Hydrocat '],'interpreter','none','fontsize',10);
+
+        fig_nm = [d_plot_pro '\' mooring_id '_avg_6hr_hydrocat'];
+        saveas(fig2,fig_nm,'tif')
+
+    end
+
 end
