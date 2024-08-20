@@ -25,6 +25,10 @@ for jj = 1:length(inst_list)
     % Get data
     inst = inst_list{jj};
     eval(['data_raw = M.RAW.' inst ';'])
+
+    % Get instrument type & s/n
+    inst_info = strsplit(inst,'_');
+    inst_type = inst_info{1}; inst_sn = inst_info{2};
     
     % Get variable names
     fn=fieldnames(data_raw);
@@ -46,10 +50,19 @@ for jj = 1:length(inst_list)
     for gg = 1:length(list_var)
         eval(['var_test = exist(''' list_var{gg} ''',''var'');'])
         if var_test>=1 % if variable exists
-            % Add variable name to header string
-            exp_hdr(ee+1:ee+length(list_var{gg})+1)=[',' list_var{gg}];
-            % Update header string length
-            ee=ee+length(list_var{gg})+1;
+            if regexp(inst_type,'ML') 
+                if regexp(list_var{gg},'temp') % onlye xport temp, do not export depth record (uncorrected and likely to be bad)
+                    % Add variable name to header string
+                    exp_hdr(ee+1:ee+length(list_var{gg})+1)=[',' list_var{gg}];
+                    % Update header string length
+                    ee=ee+length(list_var{gg})+1;
+                end
+            else
+                % Add variable name to header string
+                exp_hdr(ee+1:ee+length(list_var{gg})+1)=[',' list_var{gg}];
+                % Update header string length
+                ee=ee+length(list_var{gg})+1;
+            end
         end
     end
     
@@ -57,9 +70,6 @@ for jj = 1:length(inst_list)
     eval(['exp_tbl = table(' exp_hdr ');']);
     
     % Build export filename
-    % Get instrument type for filename
-    inst_info = strsplit(inst,'_');
-    inst_type = inst_info{1}; inst_sn = inst_info{2};
     if regexp(inst_type,'SBE16p')
         inst_str = 'sbe16p';
     elseif regexp(inst_type,'SBE19p')
@@ -102,6 +112,10 @@ for jj = 1:length(inst_list)
     % Get data
     inst = inst_list{jj};
     eval(['data_pro = M.PRO.' inst ';'])
+
+    % Get instrument type & s/n
+    inst_info = strsplit(inst,'_');
+    inst_type = inst_info{1}; inst_sn = inst_info{2};
     
     % Get variable names
     fn=fieldnames(data_pro);
@@ -123,10 +137,19 @@ for jj = 1:length(inst_list)
     for gg = 1:length(list_var)
         eval(['var_test = exist(''' list_var{gg} ''',''var'');'])
         if var_test>=1 % if variable exists
-            % Add variable name to header string
-            exp_hdr(ee+1:ee+length(list_var{gg})+1)=[',' list_var{gg}];
-            % Update header string length
-            ee=ee+length(list_var{gg})+1;
+            if regexp(inst_type,'ML') 
+                if regexp(list_var{gg},'temp') % onlye xport temp, do not export depth record (uncorrected and likely to be bad)
+                    % Add variable name to header string
+                    exp_hdr(ee+1:ee+length(list_var{gg})+1)=[',' list_var{gg}];
+                    % Update header string length
+                    ee=ee+length(list_var{gg})+1;
+                end
+            else
+                % Add variable name to header string
+                exp_hdr(ee+1:ee+length(list_var{gg})+1)=[',' list_var{gg}];
+                % Update header string length
+                ee=ee+length(list_var{gg})+1;
+            end
         end
     end
     
@@ -135,8 +158,6 @@ for jj = 1:length(inst_list)
     
     % Build export filename
     % Get instrument type for filename
-    inst_info = strsplit(inst,'_');
-    inst_type = inst_info{1}; inst_sn = inst_info{2};
     if regexp(inst_type,'SBE16p')
         inst_str = 'sbe16p';
     elseif regexp(inst_type,'SBE19p')
@@ -181,6 +202,10 @@ for jj = 1:length(inst_list)
     inst = inst_list{jj};
     eval(['data_avg = M.PRO_avg_daily.' inst ';'])
     
+    % Get instrument type & s/n
+    inst_info = strsplit(inst,'_');
+    inst_type = inst_info{1}; inst_sn = inst_info{2};
+
     % Get variable names
     fn=fieldnames(data_avg);
     
@@ -201,10 +226,19 @@ for jj = 1:length(inst_list)
     for gg = 1:length(list_var)
         eval(['var_test = exist(''' list_var{gg} ''',''var'');'])
         if var_test>=1 % if variable exists
-            % Add variable name to header string
-            exp_hdr(ee+1:ee+length(list_var{gg})+1)=[',' list_var{gg}];
-            % Update header string length
-            ee=ee+length(list_var{gg})+1;
+            if regexp(inst_type,'ML') 
+                if regexp(list_var{gg},'temp') % onlye xport temp, do not export depth record (uncorrected and likely to be bad)
+                    % Add variable name to header string
+                    exp_hdr(ee+1:ee+length(list_var{gg})+1)=[',' list_var{gg}];
+                    % Update header string length
+                    ee=ee+length(list_var{gg})+1;
+                end
+            else
+                % Add variable name to header string
+                exp_hdr(ee+1:ee+length(list_var{gg})+1)=[',' list_var{gg}];
+                % Update header string length
+                ee=ee+length(list_var{gg})+1;
+            end
         end
     end
     
@@ -212,9 +246,6 @@ for jj = 1:length(inst_list)
     eval(['exp_tbl = table(' exp_hdr ');']);
     
     % Build export filename
-    % Get instrument type for filename
-    inst_info = strsplit(inst,'_');
-    inst_type = inst_info{1}; inst_sn = inst_info{2};
     if regexp(inst_type,'SBE16p')
         inst_str = 'sbe16p';
     elseif regexp(inst_type,'SBE19p')
