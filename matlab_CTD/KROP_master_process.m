@@ -28,7 +28,8 @@ mooring_id=input('Mooring ID? (e.g. RF_11_12)     ','s');
 disp(' ')
 
 % Log processing
-proc_log = [pwd '\processing_logs\' mooring_id '_processing_log.txt'];
+% proc_log = [pwd '\processing_logs\' mooring_id '_processing_log.txt'];
+proc_log = [mooring_id '_processing_log.txt'];
 eval(['diary ' proc_log])
 disp('*** Processing log opened ***');
 
@@ -143,3 +144,6 @@ diary off
 disp('*** Processing log closed ***');
 
 eval(['cd ' d_root '\processing\matlab_CTD'])
+
+% Archive processing log
+movefile(proc_log,[d_root '\processing\matlab_CTD\processing_logs\' proc_log])
