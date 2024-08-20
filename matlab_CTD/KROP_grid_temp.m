@@ -17,6 +17,7 @@ load(mat_fl)
 
 
 %% Collate instrument list and nominal depths
+inst_depth=[];
 jj=1;
 
 if exist('sbe16p_num','var')
