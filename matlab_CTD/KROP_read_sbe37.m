@@ -161,5 +161,13 @@ elseif p == 3 % Bad pressure data
     
 end
 
-
+% Special case: time offset on one microcat from KF_05_06, correct
+if (regexp(moor,'KF_05_06') & regexp(sn,'2166'))
+    msg = ['SBE37 S/N ' sn ': Applying time offset of +13.3h'];
+    disp(msg)
+    % Back up original timestamps
+    sbe37.mtime_original = mtime;
+    % Add 13h 18 minutes
+    sbe37.mtime = mtime + 13.3/24;
+end
 
